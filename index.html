@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf=8" />
+
+    <title>pf2e card maker</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="style.css" />
+
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+    <div id="canvascontainer" style="height:555px; width: 408px;">
+
+        <canvas id="pf2ecard" width="816" height="1110" style="border:1px solid black; height:100%; width:100%;">
+            Sorry, your browser does not support canvas.
+        </canvas>
+    </div>
+    <div id="carddata">
+        Name: <input type="text" name="abilityname" id="abilityname" value="ABILITY NAME">
+        <br>
+        <input type="radio" name="actioncost" id="action1" value="[one-action]"><label for="action1" class="pfi">[one-action]</label>
+        <input type="radio" name="actioncost" id="action2" value="[two-actions]" checked><label for="action2" class="pfi">[two-actions]</label>
+        <input type="radio" name="actioncost" id="action3" value="[three-actions]"><label for="action3" class="pfi">[three-actions]</label>
+        <input type="radio" name="actioncost" id="actionr" value="[reaction]"><label for="actionr" class="pfi">[reaction]</label>
+        <input type="radio" name="actioncost" id="actionf" value="[free-action]"><label for="actionf" class="pfi">[free-action]</label>
+        <input type="radio" name="actioncost" id="actionv" value="[varies]"><label for="actionv"><span class="pfi">[one-action]</span> to <span class="pfi">[three-actions]</span></label>
+        <br>
+        Traits: <input type="text" name="traitlist" id="traitlist" value="Attack">
+    </div>
+
+    <!-- [one-action] [two-actions] [three-actions] [reaction] [free-action] -->
+    <span class="pfi" style="font-size: 0px;">[one-action]</span>
+
+
+</body>
+
+</html>
