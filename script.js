@@ -5,39 +5,40 @@ const ctx = canvas.getContext("2d");
 document.fonts.onloadingdone = () => {
     console.log("fonts loaded");
 
-    var acradios = document.querySelectorAll('input[type="radio"]:checked');
-    var acval = acradios.length > 0 ? acradios[0].value : null;
-    console.log(acval);
-    var acxloc = 661;
-
-    var strAbilityName = document.getElementById('abilityname');
-
-    ctx.strokeRect(66, 65, 684, 981);
-
-    ctx.font = "600 50px Roboto";
-    ctx.fillText(strAbilityName.value, 75, 120);
-    ctx.font = '50px PathfinderIcons';
-    ctx.fillText(acval, acxloc, 125);
+    renderCard();
 }
 
-document.getElementById('abilityname').addEventListener('keyup', renderCard);
 document.querySelectorAll('input').forEach(e => {
     e.addEventListener('click', renderCard)
 });
-
+document.querySelectorAll('input').forEach(e => {
+    e.addEventListener('keyup', renderCard)
+});
+document.querySelectorAll('textarea').forEach(e => {
+    e.addEventListener('keyup', renderCard)
+});
 
 function renderCard() {
-    strAbilityName = document.getElementById('abilityname').value;
-    console.log(strAbilityName);
+    // prep card rect
     ctx.fillStyle = 'white';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // safe print area box
+    ctx.strokeStyle = 'red';
+    ctx.lineWidth = 1;
+    ctx.setLineDash([6]);
     ctx.strokeRect(66, 65, 684, 981);
+
+    // ability name
+    var strAbilityName = document.getElementById('abilityname').value;
+    // console.log(strAbilityName);
     ctx.fillStyle = 'black';
     ctx.font = '600 50px Roboto';
     ctx.fillText(strAbilityName, 75, 120);
+
+    // action cost symbols
     var acradios = document.querySelectorAll('input[type="radio"]:checked');
     var acval = acradios.length > 0 ? acradios[0].value : null;
-
     switch (acval) {
         case "[one-action]":
         case "[reaction]":
@@ -67,4 +68,146 @@ function renderCard() {
         ctx.font = '50px PathfinderIcons';
         ctx.fillText(acval, acxloc, 125);
     }
+
+    // line
+    ctx.strokeStyle = 'black';
+    ctx.setLineDash([]);
+    ctx.beginPath();
+    ctx.moveTo(75 + 10, 135);
+    ctx.lineTo(684 + 66 - 9 - 10, 135);
+    ctx.lineWidth = 3;
+    ctx.lineCap = "round";
+    ctx.stroke();
+
+    // traits
+    var strTraitList = document.getElementById('traitlist').value;
+    ctx.fillStyle = 'black';
+    ctx.font = 'italic 300 25px Roboto';
+    ctx.fillText(strTraitList, 75, 160);
+
+    // range
+    var strRange = document.getElementById('rangetext').value;
+    ctx.fillStyle = 'black';
+    ctx.font = '500 25px Roboto';
+    ctx.fillText("Range", 75, 190);
+    ctx.font = 'italic 300 25px Roboto';
+    ctx.fillText(strRange, 75, 215);
+
+    // target
+    var strTarget = document.getElementById('targettext').value;
+    ctx.fillStyle = 'black';
+    ctx.textAlign = "center";
+    ctx.font = '500 25px Roboto';
+    ctx.fillText("Targets", 408, 190);
+    ctx.font = 'italic 300 25px Roboto';
+    ctx.fillText(strTarget, 408, 215);
+    ctx.textAlign = "start";
+
+    // defense
+    var strDefense = document.getElementById('defensetext').value;
+    ctx.fillStyle = 'black';
+    ctx.textAlign = "end";
+    ctx.font = '500 25px Roboto';
+    ctx.fillText("Defense", 684 + 66 - 9, 190);
+    ctx.font = 'italic 300 25px Roboto';
+    ctx.fillText(strDefense, 684 + 66 - 9, 215);
+    ctx.textAlign = "start";
+
+    // duration
+    var strDuration = document.getElementById('durationtext').value;
+    ctx.fillStyle = 'black';
+    // ctx.textAlign = "center";
+    ctx.font = '500 25px Roboto';
+    ctx.fillText("Duration", 75, 245);
+    ctx.font = 'italic 300 25px Roboto';
+    ctx.fillText(strDuration, 75, 270);
+    // ctx.textAlign = "start";
+
+    // source and level
+    var strSourceAndLevel = document.getElementById('sourceleveltext').value;
+    ctx.fillStyle = 'black';
+    ctx.textAlign = "end";
+    ctx.font = '500 25px Roboto';
+    ctx.fillText("Source & Level", 684 + 66 - 9, 245);
+    ctx.font = 'italic 300 25px Roboto';
+    ctx.fillText(strSourceAndLevel, 684 + 66 - 9, 270);
+    ctx.textAlign = "start";
+
+    // line
+    ctx.strokeStyle = 'black';
+    ctx.setLineDash([]);
+    ctx.beginPath();
+    ctx.moveTo(75 + 10, 280);
+    ctx.lineTo(684 + 66 - 9 - 10, 280);
+    ctx.lineWidth = 3;
+    ctx.lineCap = "round";
+    ctx.stroke();
+
+    // ability text
+    // canvas does not do text wrapping natively
+    // text wrapping from https://stackoverflow.com/a/11124580 modified to handle newlines
+    var strAbilityText = document.getElementById('abilitytext').value;
+    ctx.fillStyle = 'black';
+    ctx.font = 'bold 30px PathfinderIcons';
+
+    var lines = fragmentText(strAbilityText, 684);
+    lines.forEach(function (line, i) {
+        ctx.fillText(line, 75, 285 + (i + 1) * 30);
+    });
+
+    // reference
+    var strRef = document.getElementById('reftext').value;
+    ctx.fillStyle = 'darkslategray';
+    ctx.textAlign = "end";
+    ctx.font = '200 15px Roboto';
+    ctx.fillText(strRef, 684 + 66 - 9, 1035);
+    ctx.textAlign = "start";
+    
+}
+
+function fragmentText(text, maxWidth) {
+    const paragraphs = text.split('\n');
+    let lines = [];
+
+    paragraphs.forEach(paragraph => {
+        if (paragraph.trim() === "") {
+            lines.push("");
+            return;
+        }
+
+        let words = paragraph.split(' ');
+        let currentLine = "";
+
+        if (ctx.measureText(paragraph).width < maxWidth) {
+            lines.push(paragraph);
+            return;
+        }
+
+        while (words.length > 0) {
+            let splitWord = false;
+            while (words[0] && ctx.measureText(words[0]).width >= maxWidth) {
+                let tmp = words[0];
+                words[0] = tmp.slice(0, -1);
+                if (!splitWord) {
+                    splitWord = true;
+                    words.splice(1, 0, tmp.slice(-1));
+                } else {
+                    words[1] = tmp.slice(-1) + words[1];
+                }
+            }
+
+            if (ctx.measureText(currentLine + words[0]).width < maxWidth) {
+                currentLine += words.shift() + " ";
+            } else {
+                lines.push(currentLine.trim());
+                currentLine = "";
+            }
+
+            if (words.length === 0) {
+                lines.push(currentLine.trim());
+            }
+        }
+    });
+
+    return lines;
 }
