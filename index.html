@@ -42,19 +42,24 @@
         <br>
         Duration: <input type="text" name="durationtext" id="durationtext" value="1 hour">
         <br>
+        Frequency: <input type="text" name="frequencytext" id="frequencytext" value="one time per turn">
+        <br>
         Source & Level: <input type="text" name="sourceleveltext" id="sourceleveltext" value="Limited Magic 1">
         <br>
-        Ability text: <textarea name="abilitytext" id="abilitytext" rows="5" cols="30">Lorem ipsum dolor sit amet, consectetur adipiscing 
-[one-action]
-elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</textarea>
+        Ability text: <textarea name="abilitytext" id="abilitytext" rows="2" cols="30">A description of what the ability does.</textarea>
         <br>
         Reference: <input type="text" name="reftext" id="reftext" value="Rulebook pg9999">
         <br>
-        [wip] Results:<br>
-        <input type="text" name="res1name" id="res1name" value="Crit: "><input type="text" name="res1text" id="res1text" value="double damage">
-        <input type="text" name="res2name" id="res2name" value="Hit: "><input type="text" name="res2text" id="res2text" value="damage">
-        <input type="text" name="res3name" id="res3name" value="Miss: "><input type="text" name="res3text" id="res3text" value="half damage">
-        <input type="text" name="res4name" id="res4name" value="Fumble: "><input type="text" name="res4text" id="res4text" value="you faint">
+        Results:<br>
+        <input type="checkbox" name="resenable" id="res1enable" checked><input type="text" name="res1name" id="res1name" value="Crit: "><input type="text" name="res1text" id="res1text" value="double damage">
+        <br>
+        <input type="checkbox" name="resenable" id="res2enable" checked><input type="text" name="res2name" id="res2name" value="Hit: "><input type="text" name="res2text" id="res2text" value="damage">
+        <br>
+        <input type="checkbox" name="resenable" id="res3enable" checked><input type="text" name="res3name" id="res3name" value="Miss: "><input type="text" name="res3text" id="res3text" value="half damage">
+        <br>
+        <input type="checkbox" name="resenable" id="res4enable" checked><input type="text" name="res4name" id="res4name" value="Fumble: "><input type="text" name="res4text" id="res4text" value="you faint">
+        <br>
+        Show: <input type="checkbox" name="mpcsafe" id="mpcsafe" checked>MPC safe print area <input type="checkbox" name="whitebg" id="whitebg" checked>white bg
 
     </div>
 

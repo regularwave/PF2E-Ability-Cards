@@ -19,15 +19,24 @@ document.querySelectorAll('textarea').forEach(e => {
 });
 
 function renderCard() {
-    // prep card rect
-    ctx.fillStyle = 'white';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    // clear the canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    // white bg rectangle
+    var showWhiteBG = document.getElementById('whitebg');
+    if (showWhiteBG.checked) {
+        ctx.fillStyle = 'white';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
 
     // safe print area box
-    ctx.strokeStyle = 'red';
-    ctx.lineWidth = 1;
-    ctx.setLineDash([6]);
-    ctx.strokeRect(66, 65, 684, 981);
+    var showMPCsafe = document.getElementById('mpcsafe');
+    if (showMPCsafe.checked) {
+        ctx.strokeStyle = 'red';
+        ctx.lineWidth = 1;
+        ctx.setLineDash([6]);
+        ctx.strokeRect(66, 65, 684, 981);
+    }
 
     // ability name
     var strAbilityName = document.getElementById('abilityname').value;
@@ -82,7 +91,7 @@ function renderCard() {
     // traits
     var strTraitList = document.getElementById('traitlist').value;
     ctx.fillStyle = 'black';
-    ctx.font = 'italic 300 25px Roboto';
+    ctx.font = 'italic 300 20px Roboto';
     ctx.fillText(strTraitList, 75, 160);
 
     // range
@@ -93,7 +102,7 @@ function renderCard() {
     ctx.font = 'italic 300 25px Roboto';
     ctx.fillText(strRange, 75, 215);
 
-    // target
+    // targets
     var strTarget = document.getElementById('targettext').value;
     ctx.fillStyle = 'black';
     ctx.textAlign = "center";
@@ -116,12 +125,20 @@ function renderCard() {
     // duration
     var strDuration = document.getElementById('durationtext').value;
     ctx.fillStyle = 'black';
-    // ctx.textAlign = "center";
     ctx.font = '500 25px Roboto';
     ctx.fillText("Duration", 75, 245);
     ctx.font = 'italic 300 25px Roboto';
     ctx.fillText(strDuration, 75, 270);
-    // ctx.textAlign = "start";
+
+    // frequency
+    var strFrequency = document.getElementById('frequencytext').value;
+    ctx.fillStyle = 'black';
+    ctx.textAlign = "center";
+    ctx.font = '500 25px Roboto';
+    ctx.fillText("Frequency", 408, 245);
+    ctx.font = 'italic 300 25px Roboto';
+    ctx.fillText(strFrequency, 408, 270);
+    ctx.textAlign = "start";
 
     // source and level
     var strSourceAndLevel = document.getElementById('sourceleveltext').value;
@@ -150,10 +167,25 @@ function renderCard() {
     ctx.fillStyle = 'black';
     ctx.font = 'bold 30px PathfinderIcons';
 
-    var lines = fragmentText(strAbilityText, 684);
+    var lines = fragmentText(strAbilityText, 674);
     lines.forEach(function (line, i) {
         ctx.fillText(line, 75, 285 + (i + 1) * 30);
     });
+
+    // results
+    var resultsArray = Array.from(document.querySelectorAll('input[type="checkbox"][name="resenable"]:checked'), cb => cb.id.substring(0, 4)).reverse();
+    resultsArray.forEach(function (restarget, i) {
+        var resultNameText = document.getElementById(restarget + "name").value;
+        var resultTextText = document.getElementById(restarget + "text").value;
+        console.log(ctx.measureText(resultNameText).width);
+        ctx.fillStyle = 'black';
+        ctx.font = '500 25px Roboto';
+        ctx.fillText(resultNameText, 75, 1020 - i * 25);
+        ctx.font = '300 25px Roboto';
+        ctx.fillText(resultTextText, 75 + ctx.measureText(resultNameText).width + 2, 1020 - i * 25);
+
+    });
+    console.log(resultsArray);
 
     // reference
     var strRef = document.getElementById('reftext').value;
@@ -162,7 +194,7 @@ function renderCard() {
     ctx.font = '200 15px Roboto';
     ctx.fillText(strRef, 684 + 66 - 9, 1035);
     ctx.textAlign = "start";
-    
+
 }
 
 function fragmentText(text, maxWidth) {
